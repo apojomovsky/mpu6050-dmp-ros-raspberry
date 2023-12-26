@@ -1,0 +1,3 @@
+<launch>
+    <node name="mpu6050" pkg="mpu6050_dmp_ros" type="imu_publisher" output="screen"/>
+</launch>

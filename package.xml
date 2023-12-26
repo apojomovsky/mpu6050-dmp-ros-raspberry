@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<package format="2">
+  <name>mpu6050-dmp-ros-raspberry</name>
+  <version>0.0.1</version>
+  <description>Enables a Raspberry Pi to interface with an MPU6050 sensor through I2C, making its motion data available in a ROS topic.</description>
+  <maintainer email="apojomovsky@gmail.com">Alexis Pojomovsky</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rospy</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>sensor_msgs</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+  <export>
+  </export>
+
+</package>

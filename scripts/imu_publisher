@@ -1,0 +1,90 @@
+#! /usr/bin/env python3
+
+import rospy
+
+from mpu6050_dmp_ros.MPU6050 import MPU6050
+from sensor_msgs.msg import Imu
+from std_msgs.msg import Header
+
+if __name__ == "__main__":
+    rospy.init_node("imu_publisher_node")
+
+    pub = rospy.Publisher("imu_data", Imu, queue_size=10) #TODO: make the topic name configurable
+
+    rate = rospy.Rate(10)
+
+    # TODO: make all this configurable via parameters
+    # TODO: create a simple procedure to calculate and recopilate the offset values (copy/paste-able)
+    i2c_bus = 1
+    device_address = 0x68
+    x_accel_offset = int(0)
+    y_accel_offset = int(0)
+    z_accel_offset = int(0)
+    x_gyro_offset = int(0)
+    y_gyro_offset = int(0)
+    z_gyro_offset = int(0)
+
+    enable_debug_output = False
+
+    mpu = MPU6050(i2c_bus, device_address, x_accel_offset, y_accel_offset,
+                  z_accel_offset, x_gyro_offset, y_gyro_offset, z_gyro_offset, enable_debug_output)
+    mpu.dmp_initialize()
+    mpu.set_DMP_enabled(True)
+
+    mpu_int_status = mpu.get_int_status()
+    packet_size = mpu.DMP_get_FIFO_packet_size()
+    FIFO_count = mpu.get_FIFO_count()
+
+    FIFO_buffer = [0]*64
+
+    try:
+        while not rospy.is_shutdown():
+            msg = Imu()
+            msg.header = Header()
+            msg.header.stamp = rospy.Time.now()
+            msg.header.frame_id = "base_link"  # TODO: make this configurable via parameter
+            try:
+                FIFO_count = mpu.get_FIFO_count()
+                mpu_int_status = mpu.get_int_status()
+            except:
+                continue
+            # If overflow is detected by status or fifo count we want to reset
+            if (FIFO_count == 1024) or (mpu_int_status & 0x10):
+                mpu.reset_FIFO()
+            # Check if fifo data is ready
+            elif (mpu_int_status & 0x02):
+                # Wait until packet_size number of bytes are ready for reading, default
+                # is 42 bytes
+                while FIFO_count < packet_size:
+                    FIFO_count = mpu.get_FIFO_count()
+
+                FIFO_buffer = mpu.get_FIFO_bytes(packet_size)
+                quat = mpu.DMP_get_quaternion(FIFO_buffer)
+                grav = mpu.DMP_get_gravity(quat)
+                gyro = mpu.get_rotation()
+                accel = mpu.DMP_get_linear_accel(mpu.DMP_get_acceleration_int16(FIFO_buffer), grav)
+
+                msg.orientation.x = quat.x
+                msg.orientation.y = quat.y
+                msg.orientation.z = quat.z
+                msg.orientation.w = quat.w
+
+                msg.angular_velocity.x = gyro[0]
+                msg.angular_velocity.y = gyro[1]
+                msg.angular_velocity.z = gyro[2]
+
+                msg.linear_acceleration.x = accel.x
+                msg.linear_acceleration.y = accel.y
+                msg.linear_acceleration.z = accel.z
+
+
+                # Set diagonal elements of covariance matrices for orientation (1e-6), gyro (0.001), and accel (0.01)
+                msg.orientation_covariance = [1e-6, 0, 0, 0, 1e-6, 0, 0, 0, 1e-6]
+                msg.angular_velocity_covariance = [0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001]
+                msg.linear_acceleration_covariance = [0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01]
+
+                pub.publish(msg)
+
+                rate.sleep()
+    except KeyboardInterrupt:
+        print('\n Ctrl + C QUIT')
