@@ -7,7 +7,7 @@ from sensor_msgs.msg import Imu
 from std_msgs.msg import Header
 
 if __name__ == "__main__":
-    rospy.init_node("imu_publisher_node")
+    rospy.init_node("imu_publisher")
 
     # TODO: create a simple procedure to calculate and recopilate the offset values (copy/paste-able)
     topic_name = rospy.get_param('~topic_name', 'imu_data')

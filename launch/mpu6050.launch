@@ -1,7 +1,4 @@
 <launch>
-  <rosparam file="$(find your_package_name)/config/imu_config.yaml" command="load" ns="imu_publisher" />
-
-  <node name="mpu6050" pkg="mpu6050_dmp_ros" type="imu_publisher" output="screen">
-    <rosparam ns="imu_publisher"/>
-  </node>
+  <rosparam file="$(find mpu6050_dmp_ros)/config/imu_config.yaml" command="load"/>
+  <node name="mpu6050" pkg="mpu6050_dmp_ros" type="imu_publisher" output="screen"/>
 </launch>
