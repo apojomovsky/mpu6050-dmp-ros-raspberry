@@ -24,40 +24,37 @@ Image Source: [MPU6050 | Live Graph | Raspberry Pi](https://sparkfun.hackster.io
 
 Navigate to your catkin workspace's `src` directory and clone the repository:
 
-    ```bash
-    cd ~/catkin_ws/src
-    git clone https://github.com/apojomovsky/mpu6050-dmp-ros-raspberry.git
-    ```
+```bash
+cd ~/catkin_ws/src
+git clone https://github.com/apojomovsky/mpu6050-dmp-ros-raspberry.git
+```
 
 2. **Install Dependencies:**
 
 Navigate to the cloned repository and install the required Python packages:
 
-    ```bash
-    cd mpu6050-dmp-ros-raspberry
-    pip3 install -r requirements.txt
-    ```
-
+```bash
+cd mpu6050-dmp-ros-raspberry
+pip3 install -r requirements.txt
+```
 
 3. **Build the Package:**
 
 Go back to your catkin workspace and build the package:
 
 
-    ```bash
-    cd ~/catkin_ws
-    catkin_make
-    ```
-
+```bash
+cd ~/catkin_ws
+catkin_make
+```
 
 4. **Source the Setup File:**
 
 Source the `setup.bash` file to update your environment:
 
-    ```bash
-    source ~/catkin_ws/devel/setup.bash
-    ```
-
+```bash
+source ~/catkin_ws/devel/setup.bash
+```
 
 ## Usage
 
@@ -65,10 +62,9 @@ Source the `setup.bash` file to update your environment:
 
 To start the MPU6050 sensor node, use the provided launch file:
 
-    ```bash
-    roslaunch mpu6050_dmp_ros mpu6050.launch
-    ```
-
+```bash
+roslaunch mpu6050_dmp_ros mpu6050.launch
+```
 
 This will start publishing sensor data to the `imu_data` topic.
 
