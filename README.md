@@ -14,7 +14,7 @@ This implementation builds upon the foundational work from [thisisG's MPU6050-I2
 
 ## Connection
 
-![MPU6050 with Raspberry Pi](resources/mpu6050_raspberry.jpg)
+![MPU6050 with Raspberry Pi](resources/mpu6050_raspberry.png)
 
 Image Source: [MPU6050 | Live Graph | Raspberry Pi](https://sparkfun.hackster.io/absoluteAbu/mpu6050-live-graph-raspberry-pi-637112)
 
@@ -76,6 +76,22 @@ roslaunch mpu6050_dmp_ros mpu6050.launch
 ```
 
 This will start publishing sensor data to the `imu_data` topic.
+
+## Running the Demo
+
+Follow these steps to run the MPU6050 DMP ROS demo with integrated RViz visualization:
+
+1. **Launch the Demo:**
+
+Open a terminal and execute the following command to start the demo:
+
+```bash
+roslaunch mpu6050_dmp_ros demo.launch
+```
+
+![RViz demo](resources/demo.png)
+
+Take into account this assumes the computer has an X server up and running, which might not always be the case for an embedded SBC.
 
 ## Configuration
 
