@@ -1,0 +1,7 @@
+<launch>
+    <include file="$(find mpu6050_dmp_ros)/launch/mpu6050.launch"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 1 map base_link 100" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mpu6050_dmp_ros)/rviz/demo.rviz"/>
+</launch>
