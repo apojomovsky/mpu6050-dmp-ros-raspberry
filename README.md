@@ -2,15 +2,15 @@
 
 This project leverages the Raspberry Pi's capability to interface with an MPU6050 sensor via I2C/smbus. It utilizes the sensor's Digital Motion Processor (DMP) to deliver fully filtered readings of orientation, linear acceleration, and angular velocity.
 
-The DMP employs a suite of proprietary MotionFusion algorithms as an effective alternative to the algorithms found in the [imu_tools](https://github.com/CCNYRoboticsLab/imu_tools) package. The processed values are published as standard `sensor_msgs/Imu` messages, ready for use in ROS applications.
+The DMP employs a suite of proprietary MotionFusion algorithms as an alternative to the algorithms offered as part of the [imu_tools](https://github.com/CCNYRoboticsLab/imu_tools) package. The processed values are published as standard `sensor_msgs/Imu` messages, ready for use in ROS applications.
 
-This implementation builds upon the foundational work from [thisisG's MPU6050-I2C-Python-Class](https://github.com/thisisG/MPU6050-I2C-Python-Class), with added support for ROS Noetic and compatibility with the Raspberry Pi platform.
+This implementation builds upon the foundational work from [thisisG's MPU6050-I2C-Python-Class](https://github.com/thisisG/MPU6050-I2C-Python-Class), with added support for ROS Noetic and compatibility for the Raspberry Pi platform.
 
 ## Prerequisites
 
-- Raspberry Pi with ROS Noetic installed
-- Python 3
-- Access to an MPU6050 sensor
+- A Raspberry Pi with ROS Noetic installed (Ubuntu 20.04)
+- A valid version of Python 3
+- An MPU6050 sensor
 
 ## Connection
 
@@ -29,7 +29,16 @@ cd ~/catkin_ws/src
 git clone https://github.com/apojomovsky/mpu6050-dmp-ros-raspberry.git
 ```
 
-2. **Install Dependencies:**
+2. **Install ROS Dependencies:**
+
+Use rosdep to install the dependencies declared in the `package.xml` file:
+
+```bash
+cd ~/catkin_ws
+rosdep install --from-paths src --ignore-src -r -y
+```
+
+2. **Install Python Dependencies:**
 
 Navigate to the cloned repository and install the required Python packages:
 
